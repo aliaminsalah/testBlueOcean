@@ -20,6 +20,12 @@ pipeline {
             echo 'Running test1'
           }
         }
+        stage('Test3') {
+      parallel {
+        stage('Test3') {
+          steps {
+            echo 'test3'
+          }
 
       }
     }
