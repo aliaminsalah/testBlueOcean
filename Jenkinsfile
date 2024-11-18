@@ -1,47 +1,47 @@
 pipeline {
     agent any 
     
-    tools{
+    tools {
         jdk 'jdk11'
         maven 'maven3'
     }
     
-    stages{
+    stages {
         
-        stage("Git Checkout"){
-            steps{
+        stage("Git Checkout") {
+            steps {
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
             }
         }
         
-        stage("Compile"){
-            steps{
+        stage("Compile") {
+            steps {
                 sh "mvn clean compile"
             }
         }
         
-         stage("Test Cases"){
-            steps{
+        stage("Test Cases") {
+            steps {
                 sh "mvn test"
             }
         }
         
-         stage("Build"){
-            steps{
-                sh " mvn clean install"
+        stage("Build") {
+            steps {
+                sh "mvn clean install"
             }
         }
         
-        stage("Docker Build & Push"){
-            steps{
-                script{
-                   withDockerRegistry(credentialsId: '58be877c-9294-410e-98ee-6a959d73b352', toolName: 'docker') {
-                        
+        stage("Docker Build & Push") {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: '58be877c-9294-410e-98ee-6a959d73b352', toolName: 'docker') {
                         sh "docker build -t image1 ."
-                        sh "docker tag image1 adijaiswal/pet-clinic123:latest "
-                        sh "docker push adijaiswal/pet-clinic123:latest "
+                        sh "docker tag image1 adijaiswal/pet-clinic123:latest"
+                        sh "docker push adijaiswal/pet-clinic123:latest"
                     }
                 }
             }
         }
-        
+    }
+}
